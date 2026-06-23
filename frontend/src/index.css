@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body{
+
+margin:0;
+
+font-family:Inter,Arial,sans-serif;
+
+}
+.input{
+
+width:100%;
+
+padding:15px;
+
+margin-top:15px;
+
+border-radius:15px;
+
+border:1px solid #ddd;
+
+}

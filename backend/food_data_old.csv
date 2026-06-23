@@ -1,0 +1,11 @@
+name,calories,protein,carbs,fat,sugar,benefits,cons,advice
+
+Pizza,285,12,36,10,4,"Provides energy and protein","High fat and calories","Eat occasionally"
+
+Burger,354,14,40,17,8,"Protein source","High sodium","Prefer homemade"
+
+Apple,52,0.3,14,0.2,10,"Rich in fiber","Low protein","Good daily snack"
+
+Rice,130,2.7,28,0.3,0,"Energy source","Low fiber","Control portion"
+
+Chicken,165,31,0,3.6,0,"High protein","Avoid fried","Good for muscle growth"
