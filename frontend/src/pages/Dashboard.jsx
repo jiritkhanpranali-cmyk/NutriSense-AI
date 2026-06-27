@@ -1,3 +1,6 @@
+import {useEffect,useState} from "react";
+import axios from "axios";
+
 import {
 LineChart,
 Line,
@@ -18,9 +21,6 @@ Activity
 
 import {motion} from "framer-motion";
 
-import {useEffect,useState} from "react";
-
-import axios from "axios";
 
 
 
@@ -34,25 +34,18 @@ const [data,setData]=useState(null);
 useEffect(()=>{
 
 
-loadDashboard();
-
-
-},[]);
-
-
-
-
-
-async function loadDashboard(){
+async function fetchDashboard(){
 
 
 try{
 
 
-let res=
-await axios.get(
+const res = await axios.get(
 "http://localhost:5000/dashboard"
 );
+
+
+console.log("Dashboard Data:",res.data);
 
 
 setData(res.data);
@@ -63,12 +56,23 @@ setData(res.data);
 
 catch(error){
 
+
 console.log(error);
 
+
 }
 
 
 }
+
+
+
+fetchDashboard();
+
+
+
+},[]);
+
 
 
 
@@ -79,13 +83,14 @@ if(!data){
 
 return(
 
-<h1 className="p-10 text-2xl">
+<div className="p-10 text-2xl">
 
 Loading Dashboard...
 
-</h1>
+</div>
 
 )
+
 
 }
 
@@ -107,22 +112,31 @@ to-blue-100
 
 
 
+
+
 <h1 className="
 text-4xl
 font-bold
+text-gray-800
 ">
 
+
 Welcome {data.name} 👋
+
 
 </h1>
 
 
 
-<p>
+
+<p className="mt-2 text-gray-600">
 
 Your AI Health Progress Dashboard
 
 </p>
+
+
+
 
 
 
@@ -136,15 +150,19 @@ mt-10
 
 
 
+
+
 <StatCard
 
 icon={<Flame/>}
 
 title="Calories"
 
-value={data.calories+" kcal"}
+value={`${data.calories} kcal`}
 
 />
+
+
 
 
 
@@ -161,15 +179,20 @@ value={data.bmi}
 
 
 
+
+
 <StatCard
 
 icon={<HeartPulse/>}
 
 title="Health Score"
 
-value={data.healthScore+"%"}
+value={`${data.healthScore}%`}
 
 />
+
+
+
 
 
 
@@ -178,11 +201,13 @@ value={data.healthScore+"%"}
 
 icon={<Activity/>}
 
-title="Activity"
+title="Goal"
 
-value={data.activity}
+value={data.goal}
 
 />
+
+
 
 
 
@@ -194,18 +219,23 @@ value={data.activity}
 
 
 
+
+
+
 <div className="
 bg-white
 rounded-3xl
 shadow-xl
 p-8
-mt-10
+mt-12
 ">
+
 
 
 <h2 className="
 text-2xl
 font-bold
+mb-5
 ">
 
 Weekly Calories
@@ -215,22 +245,33 @@ Weekly Calories
 
 
 
+
+
+<div className="w-full h-[350px]">
+
+
 <ResponsiveContainer
 width="100%"
-height={300}
+height="100%"
 >
 
 
-<LineChart data={data.weekly}>
+<LineChart
+data={data.weekly}
+>
 
 
-<XAxis dataKey="day"/>
+<XAxis
+dataKey="day"
+/>
 
 
 <YAxis/>
 
 
 <Tooltip/>
+
+
 
 
 <Line
@@ -240,6 +281,7 @@ type="monotone"
 dataKey="calories"
 
 />
+
 
 
 </LineChart>
@@ -252,12 +294,20 @@ dataKey="calories"
 
 
 
+</div>
+
+
+
+
+
+
+
 
 
 <div className="
 bg-green-50
-p-8
 rounded-3xl
+p-8
 mt-10
 ">
 
@@ -267,13 +317,16 @@ text-xl
 font-bold
 ">
 
+
 AI Health Advice 🤖
+
 
 </h2>
 
 
 
-<p className="mt-3">
+
+<p className="mt-4 text-gray-700">
 
 
 {
@@ -282,28 +335,43 @@ data.status==="Overweight"
 
 ?
 
-"Focus on calorie control, protein intake and regular activity."
+"Your BMI shows overweight. Focus on balanced meals, protein intake and regular exercise."
 
 :
 
-"Your health progress looks good. Maintain your routine."
+data.status==="Underweight"
+
+?
+
+"Your BMI is low. Increase healthy calories and protein sources."
+
+:
+
+"Your health condition looks balanced. Continue your healthy routine."
 
 }
+
 
 
 </p>
 
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+</div>
+
 
 
 )
+
 
 }
 
@@ -326,16 +394,22 @@ whileHover={{
 scale:1.05
 }}
 
+
 className="
 bg-white
 rounded-3xl
 shadow-lg
 p-6
-">
+"
+
+
+>
+
 
 
 <div className="
 text-green-600
+mb-3
 ">
 
 {icon}
@@ -343,24 +417,36 @@ text-green-600
 </div>
 
 
-<p>
+
+<p className="
+text-gray-500
+">
+
 
 {title}
 
+
 </p>
+
 
 
 <h2 className="
 text-3xl
 font-bold
+mt-2
 ">
 
+
 {value}
+
 
 </h2>
 
 
+
+
 </motion.div>
+
 
 
 )

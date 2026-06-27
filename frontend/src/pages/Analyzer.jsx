@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState,useEffect} from "react";
 import axios from "axios";
 
 
@@ -9,9 +9,38 @@ const [food,setFood]=useState("");
 
 const [result,setResult]=useState(null);
 
+const [user,setUser]=useState(null);
 
-const user =
-JSON.parse(localStorage.getItem("user"));
+
+
+
+// Load user from database
+
+useEffect(()=>{
+
+
+axios.get(
+"http://localhost:5000/user"
+)
+
+.then(res=>{
+
+setUser(res.data);
+
+})
+
+
+.catch(err=>{
+
+console.log(err);
+
+})
+
+
+},[]);
+
+
+
 
 
 
@@ -32,6 +61,19 @@ return;
 
 
 
+if(!food){
+
+alert("Enter food name");
+
+return;
+
+}
+
+
+
+
+// Food details
+
 let foodData =
 await axios.get(
 
@@ -40,6 +82,9 @@ await axios.get(
 );
 
 
+
+
+// AI Recommendation
 
 let recommendation =
 await axios.get(
@@ -50,6 +95,8 @@ await axios.get(
 
 
 
+
+// BMI
 
 let bmi =
 await axios.get(
@@ -62,31 +109,47 @@ await axios.get(
 
 
 
+
 setResult({
+
 
 food:foodData.data,
 
-recommendation:
-recommendation.data,
+
+recommendation:recommendation.data,
+
 
 bmi:bmi.data
+
+
 
 });
 
 
 
+
+
 }
 
-catch(e){
+catch(error){
 
-console.log(e);
+
+console.log(error);
+
 
 alert("Food not found or server error");
 
+
 }
 
 
+
 }
+
+
+
+
+
 
 
 
@@ -114,6 +177,9 @@ p-10
 
 
 
+
+
+
 <h1 className="
 text-4xl
 font-bold
@@ -125,19 +191,32 @@ Hi {user?.name} 👋
 </h1>
 
 
-<p className="mt-2">
 
-Let's check your food health impact
+
+<p className="
+mt-2
+text-gray-600
+">
+
+AI Food Analyzer - Personalized Nutrition Advice
 
 </p>
 
 
 
 
-<div className="flex mt-8">
+
+
+
+
+<div className="
+flex
+mt-8
+">
 
 
 <input
+
 
 className="
 flex-1
@@ -146,27 +225,39 @@ p-4
 rounded-l-xl
 "
 
-placeholder="Search food like Pizza, Paneer..."
+
+placeholder="Search food like Paneer, Pizza, Apple"
+
 
 value={food}
 
+
+
 onChange={(e)=>
+
 setFood(e.target.value)
+
 }
+
 
 />
 
 
 
+
 <button
 
+
 onClick={analyze}
+
+
 
 className="
 bg-green-600
 text-white
 px-8
 rounded-r-xl
+hover:bg-green-700
 "
 
 >
@@ -176,18 +267,26 @@ Analyze
 </button>
 
 
+
+
 </div>
 
 
 
 
 
-{
 
+
+
+
+{
 result &&
 
 
+
 <div className="mt-10">
+
+
 
 
 
@@ -204,12 +303,20 @@ text-green-600
 
 
 
+
+
+
+
+
 <div className="
 grid
 grid-cols-4
 gap-5
 mt-6
 ">
+
+
+
 
 
 <Card
@@ -221,6 +328,9 @@ value={result.food.calories+" kcal"}
 />
 
 
+
+
+
 <Card
 
 title="Protein"
@@ -228,6 +338,10 @@ title="Protein"
 value={result.food.protein+" g"}
 
 />
+
+
+
+
 
 
 <Card
@@ -239,6 +353,10 @@ value={result.food.fat+" g"}
 />
 
 
+
+
+
+
 <Card
 
 title="Sugar"
@@ -248,7 +366,14 @@ value={result.food.sugar+" g"}
 />
 
 
+
+
+
+
 </div>
+
+
+
 
 
 
@@ -273,6 +398,8 @@ Health Analysis 🩺
 </h2>
 
 
+
+
 <p className="mt-3">
 
 BMI :
@@ -281,16 +408,32 @@ BMI :
 </p>
 
 
+
 <p>
 
-Status :
+Health Status :
+
 {result.bmi.status}
 
 </p>
 
 
 
+
+<p>
+
+Goal :
+
+{user.goal}
+
+</p>
+
+
+
+
 </div>
+
+
 
 
 
@@ -316,16 +459,58 @@ AI Recommendation 🤖
 </h2>
 
 
-<p className="mt-3 font-bold">
 
-ML Health Category:
 
-{result.recommendation.ml_prediction}
+
+<p className="
+mt-5
+whitespace-pre-line
+text-gray-700
+leading-7
+">
+
+
+{
+
+result.recommendation.recommendation
+
+}
+
 
 </p>
 
 
+
+
+
+
+
+{
+result.recommendation.health_category &&
+
+
+<p className="
+mt-4
+font-bold
+text-green-700
+">
+
+
+AI Health Category :
+
+{result.recommendation.health_category}
+
+
+</p>
+
+
+}
+
+
+
 </div>
+
+
 
 
 
@@ -339,6 +524,9 @@ grid-cols-2
 gap-5
 mt-6
 ">
+
+
+
 
 
 
@@ -356,14 +544,19 @@ Benefits
 </h3>
 
 
-<p>
+<p className="mt-2">
 
 {result.food.benefits}
 
 </p>
 
 
+
 </div>
+
+
+
+
 
 
 
@@ -383,27 +576,38 @@ Things to consider
 </h3>
 
 
-<p>
+<p className="mt-2">
 
 {result.food.cons}
 
 </p>
 
 
-</div>
-
-
-
 
 </div>
 
 
 
 
+
+
+
+
 </div>
+
+
+
+
+
+
+
+
+</div>
+
 
 
 }
+
 
 
 
@@ -415,7 +619,11 @@ Things to consider
 
 )
 
+
+
 }
+
+
 
 
 
@@ -426,6 +634,7 @@ function Card({title,value}){
 
 return(
 
+
 <div className="
 bg-green-50
 rounded-xl
@@ -434,16 +643,18 @@ text-center
 ">
 
 
-<p>
+<p className="text-gray-600">
 
 {title}
 
 </p>
 
 
+
 <h2 className="
 font-bold
 text-xl
+mt-2
 ">
 
 {value}
@@ -451,8 +662,12 @@ text-xl
 </h2>
 
 
+
 </div>
 
+
+
 )
+
 
 }
