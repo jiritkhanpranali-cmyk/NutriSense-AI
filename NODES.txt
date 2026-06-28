@@ -1,0 +1,205 @@
+NutriSense AI Execution Flow
+
+
+START
+
+  |
+
+  |
+
+User Opens NutriSense AI Website
+
+  |
+
+  |
+
+React Frontend Application Loads
+
+  |
+
+  |
+
+User Creates Health Profile
+
+(Name, Age, Gender, Weight, Height, Goal, Diabetes Information)
+
+  |
+
+  |
+
+Profile Data Sent to Backend
+
+Using Axios API Request
+
+  |
+
+  |
+
+Flask Backend Receives User Data
+
+  |
+
+  |
+
+SQLAlchemy ORM Processes Data
+
+  |
+
+  |
+
+User Information Stored in SQLite Database
+
+(nutrisense.db)
+
+  |
+
+  |
+
+User Opens AI Food Analyzer
+
+  |
+
+  |
+
+User Searches Food Item
+
+(Example: Apple, Pizza, Paneer)
+
+  |
+
+  |
+
+React Sends Food Request to Flask API
+
+  |
+
+  |
+
+Flask Food API
+
+/food/<food_name>
+
+  |
+
+  |
+
+Food Nutrition Dataset Processing
+
+(food_data.csv)
+
+  |
+
+  |
+
+Nutrition Information Extracted
+
+(Calories, Protein, Fat, Carbohydrates, Sugar)
+
+  |
+
+  |
+
+Machine Learning Model Execution
+
+(Random Forest Classifier)
+
+  |
+
+  |
+
+Food Health Category Prediction
+
+(Healthy / Moderate / Avoid)
+
+  |
+
+  |
+
+AI Recommendation Engine
+
+Analyzes:
+
+- User Goal
+- Nutrition Values
+- BMI
+- Health Requirements
+
+  |
+
+  |
+
+BMI Calculation Module
+
+Uses:
+
+Weight + Height
+
+  |
+
+  |
+
+Personalized Health Analysis Generated
+
+  |
+
+  |
+
+Final Response Sent Back to React Frontend
+
+  |
+
+  |
+
+Analyzer Displays:
+
+- Food Details
+- Calories
+- Protein
+- Fat
+- Sugar
+- Benefits
+- Health Concerns
+- AI Recommendation
+- ML Prediction Category
+
+  |
+
+  |
+
+User Opens Health Dashboard
+
+  |
+
+  |
+
+Dashboard Fetches Real User Data
+
+From Flask API
+
+/dashboard
+
+  |
+
+  |
+
+SQLite Database Provides User Health Information
+
+  |
+
+  |
+
+Dashboard Displays:
+
+- User Profile
+- BMI
+- Health Status
+- Health Score
+- Goal Tracking
+- Calorie Progress
+
+
+  |
+
+  |
+
+END
