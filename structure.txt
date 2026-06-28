@@ -1,0 +1,49 @@
+NutriSense-AI Project Structure
+
+
+NutriSense-AI
+
+│
+├── backend
+│
+│   ├── app.py
+│   │     Flask API server
+│   │
+│   ├── database.py
+│   │     SQLite database configuration
+│   │
+│   ├── models.py
+│   │     Database tables
+│   │
+│   ├── nutrisense.db
+│   │     User database
+│   │
+│   ├── food_data.csv
+│   │     Nutrition dataset
+│   │
+│   ├── train_model.py
+│   │     ML model training
+│   │
+│   ├── nutrition_model.pkl
+│   │     Trained Random Forest model
+│
+│
+├── frontend
+│
+│   ├── src
+│   │
+│   │   ├── components
+│   │   │
+│   │   ├── Dashboard.jsx
+│   │   ├── Analyzer.jsx
+│   │   ├── Profile.jsx
+│   │   ├── Home.jsx
+│   │
+│   ├── package.json
+│
+│
+├── README.md
+│
+├── STRUCTURE.txt
+│
+└── NODES.txt
